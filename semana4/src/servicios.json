@@ -1,0 +1,10 @@
+[]	{
+		"id": 1,
+		"title": "Daniel Marquez",
+		"description": "Domiciliario",
+		"price": 100,
+		"thumbnail": "/individual/adiestradores/adiestrador1.webp",
+		"code": "adiestrador1",
+		"stock": 10
+	}
+]
