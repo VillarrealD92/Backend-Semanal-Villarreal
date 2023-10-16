@@ -1,4 +1,4 @@
-import { promises as fsPromises, existsSync } from 'fs';
+import fs from 'fs';
 
 class ProductManager {
   constructor(filePath) {
@@ -8,13 +8,13 @@ class ProductManager {
     this.loadProducts();
   }
 
-  loadProducts() {
-    if (!existsSync(this.path)) {
+  async loadProducts() {
+    if (!fs.existsSync(this.path)) {
       throw new Error(`El archivo ${this.path} no existe`);
     }
 
     try {
-      const productsData = fsPromises.readFile(this.path, 'utf-8');
+      const productsData = await fs.promises.readFile(this.path, 'utf-8');
       this.products = JSON.parse(productsData);
       this.idCounter = Math.max(...this.products.map(product => product.id), 0) + 1;
       console.log('Contenido del archivo:', productsData);
@@ -23,9 +23,9 @@ class ProductManager {
     }
   }
 
-  saveProducts() {
+  async saveProducts() {
     try {
-      fsPromises.writeFile(this.path, JSON.stringify(this.products, null, '\t'));
+      await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, '\t'));
     } catch (error) {
       throw new Error(`Error al escribir en el archivo: ${error.message}`);
     }
@@ -48,7 +48,7 @@ class ProductManager {
     }
   }
 
-  getProductsById(id) {
+  async getProductsById(id) {
     const productById = this.products.find(p => p.id === id);
     if (productById) {
       return productById;
@@ -112,14 +112,14 @@ try {
 }
 
 try {
-  const product = productManager.getProductsById(1);
+  const product = await productManager.getProductsById(1);
   console.log("Producto encontrado:", product);
 } catch (error) {
   console.error(error.message);
 }
 
 try {
-  productManager.deleteProduct(1);
+  await productManager.deleteProduct(1);
   console.log("Producto eliminado con éxito");
 } catch (error) {
   console.error(error.message);
