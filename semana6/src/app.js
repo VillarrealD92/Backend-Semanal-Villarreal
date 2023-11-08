@@ -1,18 +1,21 @@
 import express from 'express';
-import handlebars from 'express-handlebars'
+import handlebars from 'express-handlebars';
 import { Server } from 'socket.io';
 import http from 'http';
 import __dirname from './utils.js';
 import ProductManager from './manager/ProductManager.js';
 import { CartManager } from './manager/cartManager.js';
+import productRouter from './router/products.router.js';
+import cartRouter from './router/cart.router.js'; 
+import viewsRouter from './router/views.router.js';
+
 
 const app = express();
 const httpServer = http.createServer(app);
 const io = new Server(httpServer);
 
-const productManager = new ProductManager('./api/servicios.json');
+const productManager = new ProductManager(__dirname + '/api/servicios.json');
 const cartManager = new CartManager();
-
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -20,18 +23,13 @@ app.use(express.urlencoded({ extended: true }));
 app.engine('handlebars', handlebars.engine());
 
 app.set('view engine', 'handlebars');
+app.set('views', __dirname + '/views'); 
 
 app.use(express.static(`${__dirname}/public`));
 
-app.get('/', async (req, res) => {
-  const products = await productManager.getProducts();
-  res.render('home', { products });
-});
-
-app.get('/realtimeproducts', async (req, res) => {
-  const products = await productManager.getProducts();
-  res.render('realTimeProducts', { products });
-});
+app.use('/', productRouter); 
+app.use('/carts', cartRouter);
+app.use('/realtimeproducts', viewsRouter);
 
 io.on('connection', async (socket) => {
   console.log('Nuevo usuario conectado');

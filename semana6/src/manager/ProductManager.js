@@ -1,10 +1,12 @@
 import fs from 'fs';
+import __dirname from "../utils.js"
 
 class ProductManager {
   constructor(filePath) {
     this.path = filePath;
     this.products = [];
     this.idCounter = 1;
+    console.log("ruta" + this.path)
     this.loadProducts();
   }
 
@@ -106,6 +108,6 @@ class ProductManager {
   }
 }
 
-const productManager = new ProductManager('./api/servicios.json');
+const productManager = new ProductManager(__dirname + '/api/servicios.json');
 
 export default ProductManager;

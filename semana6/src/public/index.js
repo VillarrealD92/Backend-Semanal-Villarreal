@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const productList = document.getElementById('product-list');
 
     socket.on('productos', (productos) => {
-        productList.innerHTML = ''; // Borrar la lista actual
+        productList.innerHTML = ''; 
 
         productos.forEach((producto) => {
             const listItem = document.createElement('li');
