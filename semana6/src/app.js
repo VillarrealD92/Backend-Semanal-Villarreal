@@ -2,7 +2,7 @@ import express from 'express';
 import handlebars from 'express-handlebars';
 import { Server } from 'socket.io';
 import http from 'http';
-import __dirname from './utils.js';
+import { __dirname } from './utils.js';
 import ProductManager from './manager/ProductManager.js';
 import { CartManager } from './manager/cartManager.js';
 import productRouter from './router/products.router.js';
@@ -29,7 +29,7 @@ app.use(express.static(`${__dirname}/public`));
 
 app.use('/', productRouter); 
 app.use('/carts', cartRouter);
-app.use('/realtimeproducts', viewsRouter);
+app.use('/views', viewsRouter);
 
 io.on('connection', async (socket) => {
   console.log('Nuevo usuario conectado');

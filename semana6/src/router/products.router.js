@@ -1,9 +1,10 @@
 import express from 'express';
-import utils from '../utils.js'; 
+import { __dirname } from '../utils.js'; 
 import ProductManager from '../manager/ProductManager.js';
+import { uploader } from '../utils.js'; 
 
 const productRouter = express.Router();
-const productManager = new ProductManager('../src/api/servicios.json');
+const productManager = new ProductManager(__dirname + '/api/servicios.json');
 
 productRouter.get('/', async (req, res) => {
   try {
@@ -24,7 +25,7 @@ productRouter.get('/:pid', async (req, res) => {
   }
 });
 
-productRouter.post('/', utils.uploader.single('thumbnail'), async (req, res) => {
+productRouter.post('/', uploader.single('thumbnail'), async (req, res) => {
   try {
     const { title, description, price, code, stock } = req.body;
     const thumbnail = req.file.filename; 

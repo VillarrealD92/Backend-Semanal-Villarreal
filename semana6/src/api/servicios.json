@@ -4,7 +4,7 @@
         "title": "Daniel Marquez",
         "description": "Domiciliario",
         "price": 8000,
-        "thumbnail": "http://localhost:8080/multimedia/adiestrador1.webp",
+        "thumbnail": "./src/multimedia/adiestrador1.webp",
         "code": "adiestrador1",
         "stock": 10
     },
