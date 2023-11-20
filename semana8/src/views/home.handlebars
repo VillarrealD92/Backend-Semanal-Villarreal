@@ -1,0 +1,26 @@
+<div>
+    <h1 >PRODUCTOS</h1>
+    
+    <section >
+        {{#each products}}
+            <div >
+                <a href="#">
+                    <img  src="{{this.thumbnail}}" alt="" />
+                </a>
+                <div>
+                    <a href="#">
+                        <h5 >{{this.title}}</h5>
+                    </a>
+                    <p >{{this.description}}</p>
+                    <p ><span class="font-bold">stock:</span> {{this.stock}}</p>
+                    <p ><span >price: $</span>{{this.price}}</p>
+                    <a href="#">
+                        MAS
+                    </a>
+                </div>
+            </div>
+
+        {{/each}}
+    </section>
+    
+</div>
