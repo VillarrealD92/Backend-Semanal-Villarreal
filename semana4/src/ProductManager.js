@@ -57,8 +57,12 @@ class ProductManager {
     }
   }
 
-  async getProducts() {
-    return this.products;
+  async getProducts(limit) {
+    if (limit) {
+      return this.products.slice(0, limit);
+    } else {
+      return this.products;
+    }
   }
 
   async addProduct(title, description, price, thumbnail, code, stock) {
@@ -102,27 +106,6 @@ class ProductManager {
   }
 }
 
-const productManager = new ProductManager('./servicios.json');
+const productManager = new ProductManager('../src/servicios.json');
 
-// TEST
-try {
-  productManager.addProduct("Daniel Marquez", "Domiciliario", 100, "/individual/adiestradores/adiestrador1.webp", "adiestrador1", 10);
-} catch (error) {
-  console.error(error.message);
-}
-
-try {
-  const product = await productManager.getProductsById(1);
-  console.log("Producto encontrado:", product);
-} catch (error) {
-  console.error(error.message);
-}
-
-try {
-  await productManager.deleteProduct(1);
-  console.log("Producto eliminado con éxito");
-} catch (error) {
-  console.error(error.message);
-}
-
-export default ProductManager;
+export default productManager;
