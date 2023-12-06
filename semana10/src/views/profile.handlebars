@@ -1,0 +1,18 @@
+<div class="container">
+    <ul class="nav nav-pills">
+        <li class="nav-item"><a class="nav-link" href="/">Inicio</a></li>
+        <li class="nav-item"><a class="nav-link" href="/api/session/profile">Perfil</a></li>
+    </ul>
+
+    <h1 class="mt-4">Tu perfil</h1>
+
+    <h2>Nombre: {{userData.name}} </h2>
+    <h2>Apellido: {{userData.last_name}}</h2>
+    <h2>Edad: {{userData.age}} </h2>
+    <h2>Email: {{userData.email}}</h2>
+    <h2>Role: {{userData.role}}</h2>
+
+    <form action="/api/session/profile" method="post" class="mt-4">
+        <button type="submit" class="btn btn-danger">Cerrar Sesión</button>
+    </form>
+</div>
