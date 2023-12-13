@@ -1,0 +1,70 @@
+<div class="d-flex justify-content-between">
+    <h1>{{userName.role}}: <span id="nameUser">{{userName.name}}</span></h1>
+
+    <form action="/api/session/profile" method="post" class="mt-4">
+        <button type="submit" class="btn btn-danger">Cerrar Sesión</button>
+    </form>
+</div>
+
+<ul>
+    <li><a href="/">Inicio</a></li>
+    <li><a href="/api/session/profile">Perfil</a></li>
+</ul>
+
+<div class="input-group flex-nowrap">
+    <span class="input-group-text" id="addon-wrapping">Query</span>
+    <input type="text" id="search" class="form-control" placeholder="Buscar" aria-label="Username"
+        aria-describedby="addon-wrapping" value="{{productData.query}}">
+</div>
+
+<div class="input-group flex-nowrap">
+    <span class="input-group-text" id="addon-wrapping">Limit</span>
+    <input type="number" class="form-control" id="limit" placeholder="Limite" aria-label="Username"
+        aria-describedby="addon-wrapping" value="{{productData.limit}}">
+</div>
+
+<div class="input-group flex-nowrap">
+    <span class="input-group-text" id="addon-wrapping">Sort</span>
+    <select id="price-sort" class="form-select">
+        <option value="0" {{#if productData.sortCero}} selected {{/if}}>Selecciona una opción</option>
+        <option value="asc" {{#if productData.sortAsc}} selected {{/if}}>Precio: Menor a mayor</option>
+        <option value="desc" {{#if productData.sortDesc}} selected {{/if}}>Precio: Mayor a menor </option>
+    </select>
+</div>
+
+<div class="text-center">
+    <button type="button" id="send-button" class="btn btn-dark btn-sm">Buscar</button>
+
+</div>
+
+<div class="container-products d-flex flex-wrap">
+    {{#each products}}
+    <div class="card m-2 p-2" style="width: 18rem; height: 25rem;">
+        <img src="{{this.thumbnail}}" class="card-img-top" alt="..." />
+        <div class="card-body">
+            <h5 class="card-title">{{this.title}}</h5>
+            <p class="card-text">${{this.price}}</p>
+            <p class="card-text">Disponibles: {{this.stock}}</p>
+            <a href="#" id="{{this.title}}" class="add-cart btn btn-dark">Agregar al carrito</a>
+        </div>
+    </div>
+    {{/each}}
+</div>
+
+<br>
+
+<div id="page-change" class="d-flex justify-content-between">
+    {{#if productData.hasPrevPage }}
+    <div class="pages-links"><a href="/?page={{productData.prevPage}}&limit={{productData.limit}}"> Página anterior:
+            {{productData.prevPage}}</a></div>
+    {{/if}}
+    {{#if productData.hasNextPage }}
+    <div class="pages-links"><a href="/?page={{productData.nextPage}}&limit={{productData.limit}}">Siguiente página:
+            {{productData.nextPage}}</a></div>
+    {{/if}}
+</div>
+
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="/js/products.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
