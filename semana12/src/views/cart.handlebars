@@ -1,0 +1,13 @@
+<h1 id="cart-title">CARRITO DE COMPRAS</h1>
+
+<ul>
+    {{#each cart}}
+  <li >
+    <div class="ms-2 me-auto">
+      <div >{{this.product.title}}</div>
+      ${{this.product.price}}
+    </div>
+    <span >{{this.quantity}}</span>
+  </li>
+  {{/each}}
+</ul>
