@@ -1,7 +1,7 @@
 import fs from 'fs';
 import ProductManager from './ProductManager.js';
 
-const productManager = new ProductManager('./api/servicios.json');
+// const productManager = new ProductManager('./api/servicios.json');
 
 export default class CartManager {
   constructor() {

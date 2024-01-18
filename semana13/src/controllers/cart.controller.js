@@ -1,7 +1,7 @@
 import CartManager from "../dao/managers/fileSystem/cartManager.js";
 import CartManagerDB from "../dao/mongo/cartDBManager.js";
 
-const carts = new CartManager('./api/carts.json');
+// const carts = new CartManager('./api/carts.json');
 const cartsDB = new CartManagerDB();
 
 export const createCart = (req, res) => {

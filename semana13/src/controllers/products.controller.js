@@ -1,7 +1,7 @@
 import ProductManager from "../dao/managers/fileSystem/ProductManager.js";
 import ProductManagerMDB from "../dao/mongo/productDBManager.js";
 
-const products = new ProductManager('../api/servicios.json');
+// const products = new ProductManager('../api/servicios.json');
 const productsMDB = new ProductManagerMDB();
 
 export const getProducts = async (req, res) => {

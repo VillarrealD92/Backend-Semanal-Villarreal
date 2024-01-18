@@ -1,6 +1,6 @@
 import { Router } from "express";
 import passport from "passport";
-import { justPublicWitoutSession, homeProducts, realTimeProducts, cartUser, register, login, profile } from "../controller/views.controller.js";
+import { justPublicWitoutSession, homeProducts, realTimeProducts, cartUser, register, login, profile } from "../controllers/views.controller.js";
 
 const router=Router();
 

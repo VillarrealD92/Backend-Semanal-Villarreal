@@ -1,9 +1,10 @@
-import cartModel from '../models/carts.model.js';
+import cartModel  from '../models/carts.model.js';
 import ProductManagerMDB from './productDBManager.js';
 
 class CartManagerDB {
 
     async getCarts() {
+
         try {
             const carts = await cartModel.find();
             return carts;
@@ -14,6 +15,7 @@ class CartManagerDB {
     }
 
     async createCart() {
+
         try {
             const result = await cartModel.create({});
 
@@ -26,6 +28,7 @@ class CartManagerDB {
     }
 
     async getCartById(id) {
+
         try {
             const cart = await cartModel.findOne({ _id: id });
             return cart;
@@ -91,14 +94,14 @@ class CartManagerDB {
         }
     }
 
-    async overwriteCart(cid, newProds) {
+    async overwriteCart(cid, newProds){
 
         try {
             const carrito = await cartModel.findOne({ _id: cid });
 
             const prods = newProds;
 
-            carrito.products = prods
+            carrito.products=prods
 
             await cartModel.updateOne({ _id: cid }, carrito);
             return 'Nuevo carrito guardado'
@@ -109,7 +112,7 @@ class CartManagerDB {
 
     }
 
-    async uptadeQuantity(cid, pid, newQuantity) {
+    async uptadeQuantity(cid,pid,newQuantity){
 
         const products = new ProductManagerMDB();
 
@@ -128,25 +131,25 @@ class CartManagerDB {
             }
 
             if (product) {
-                product.quantity = newQuantity;
+                product.quantity= newQuantity;
             }
 
             await cartModel.updateOne({ _id: cid }, carrito);
             return carrito
-
+            
         } catch (error) {
             return error
         }
     }
 
-    async deletCart(cid) {
+     async deletCart(cid){
 
         try {
             const carrito = await cartModel.findOne({ _id: cid });
 
             if (!carrito) return 'Carrito not found'
 
-            carrito.products = [];
+            carrito.products=[];
 
             await cartModel.updateOne({ _id: cid }, carrito);
             return 'Se elimino todos los productos del carrito'
@@ -154,7 +157,7 @@ class CartManagerDB {
         } catch (error) {
             return error
         }
-    }
+     }
 }
 
 export default CartManagerDB
