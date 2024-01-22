@@ -1,17 +1,21 @@
 import { Router } from "express";
 import userModel from "../dao/models/users.model.js";
 import passport from 'passport';
+import bcrypt from 'bcrypt';
+import config from '../config/config.js';
+
+const { ADMINUSER, ADMINPASS } = config
 
 const router = Router();
 
 router.post('/register', async (req, res) => {
     const user = req.body;
 
-    if (user.email == 'adminCoder@coder.com' && user.password != 'adminCod3r123') {
+    if (user.email == ADMINUSER && user.password != ADMINPASS) {
         return res.status(401).send({ error: 'Usuario no autorizado' });
     }
 
-    if (user.email == 'adminCoder@coder.com' && user.password == 'adminCod3r123') {
+    if (user.email == ADMINUSER && user.password == ADMINPASS) {
         user.role = 'admin';
     }
 
@@ -25,9 +29,13 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
-    const user = await userModel.findOne({ email, password });
+    const user = await userModel.findOne({ email });
 
     if (!user) return res.status(404).send('User Not Found');
+
+    const passwordMatch = await bcrypt.compare(password, user.password);
+
+    if (!passwordMatch) return res.status(401).send('Invalid Password');
 
     req.session.user = { email: user.email, name: user.name, role: user.role, age: user.age, last_name: user.last_name };
 

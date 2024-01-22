@@ -99,7 +99,6 @@ const initializePassport = () => {
                         return done(loginErr);
                     }
     
-                    // El usuario está autenticado y se ha creado una sesión
                     return done(null, user);
                 });
             } catch (error) {
