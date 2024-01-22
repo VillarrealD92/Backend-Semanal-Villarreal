@@ -3,21 +3,18 @@ import local from 'passport-local';
 import GitHubStrategy from 'passport-github2';
 import userModel from '../dao/models/users.model.js';
 import { createHash, isValidPassword } from '../utils.js';
-import jwt from 'jsonwebtoken';
-import { randomBytes } from 'crypto';
-import config from './config.js';
-
-const { CLIENTID, CLIENTSECRET, CALLBACKURL, ADMINUSER, ADMINPASS } = config
+import jwt from 'jsonwebtoken'; 
+import { randomBytes } from 'crypto'; // generar claves aleatorias
 
 const LocalStrategy = local.Strategy;
 
-const secretKey = randomBytes(32).toString('hex');
+// const secretKey = randomBytes(32).toString('hex'); // Generar la clave aleatoria
 
 const initializePassport = () => {
     passport.use('github', new GitHubStrategy({
-        clientID: CLIENTID,
-        clientSecret: CLIENTSECRET,
-        callbackURL: CALLBACKURL
+        clientID: 'Iv1.45aaf3c9b161f671',
+        clientSecret: '351d175bfa9432c843f96dd29a48884265cba3bf',
+        callbackURL: 'http://127.0.0.1:8080/api/session/githubcallback'
     }, async (accessToken, refreshToken, profile, done) => {
         console.log(profile);
 
@@ -63,12 +60,12 @@ const initializePassport = () => {
                 password: createHash(password)
             };
 
-            if (email == ADMINUSER && password != ADMINPASS) {
-                return done('Error Email ')
+            if (email === 'adminCoder@coder.com' && password !== 'adminCod3r123') {
+                return done('Error Email');
             }
 
-            if (email == ADMINUSER && password == ADMINPASS) {
-                newUser.role = 'admin'
+            if (email === 'adminCoder@coder.com' && password === 'adminCod3r123') {
+                newUser.role = 'admin';
             }
 
             const result = await userModel.create(newUser);
@@ -79,25 +76,32 @@ const initializePassport = () => {
     }));
 
     passport.use('login', new LocalStrategy(
-        { usernameField: 'email' },
-        async (username, password, done) => {
+        { usernameField: 'email', passReqToCallback: true },
+        async (req, username, password, done) => {
             try {
                 const user = await userModel.findOne({ email: username }).lean().exec();
                 if (!user) {
                     console.error('User does not exist');
-                    return done(null, false);
+                    return done(null, false, { message: 'User does not exist' });
                 }
-
+    
                 if (!isValidPassword(user, password)) {
-                    console.error('password not valid');
-                    return done(null, false);
+                    console.error('Password not valid');
+                    return done(null, false, { message: 'Password not valid' });
                 }
-
-                const token = jwt.sign({ userId: user._id }, secretKey, { expiresIn: '1h' });
-
-                return done(null, token);
+    
+                req.login(user, (loginErr) => {
+                    if (loginErr) {
+                        console.error('Error during login', loginErr);
+                        return done(loginErr);
+                    }
+    
+                    // El usuario está autenticado y se ha creado una sesión
+                    return done(null, user);
+                });
             } catch (error) {
-                return done('Error login ' + error);
+                console.error('Error during login', error);
+                return done(error);
             }
         }
     ));
@@ -113,4 +117,4 @@ const initializePassport = () => {
     })
 };
 
-export default { initializePassport, secretKey };
+export default { initializePassport};

@@ -13,12 +13,9 @@ import mongoose from 'mongoose';
 import passportConfig from './config/passport.config.js';
 import passport from 'passport';
 import MessageManagerDB from './dao/mongo/messageManager.js'
-import config from './config/config.js'; 
-import cookieParser from 'cookie-parser';
 
 const app = express();
-
-const {MONGO_URL, MONGO_DBNAME, PORT }= config
+const url = "mongodb+srv://villarreald96:yXJhKNzgBL1Y7IFj@coder-servicios.cd3fg8p.mongodb.net/";
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -31,15 +28,13 @@ app.use(express.static(__dirname + '/public'));
 
 app.use(session({
     store: MongoStore.create({
-        mongoUrl: MONGO_URL,
-        dbName: MONGO_DBNAME
+        mongoUrl: url,
+        dbName: 'ecommerce'
     }),
     secret: 'secret',
     resave: true,
     saveUninitialized: true
 }));
-
-app.use(cookieParser());
 
 passportConfig.initializePassport();
 app.use(passport.initialize());
@@ -52,12 +47,10 @@ app.use('/', productsViews);
 app.use('/messages', messageRouter);
 app.use('/api/session', sessionsRouter);
 
-
-const httpServer = app.listen(PORT, () => console.log(`Servidor activo en el puerto ${PORT}`));
+const httpServer = app.listen(8080, () => console.log("Servidor activo en el puerto 8080"));
 const io = new Server(httpServer);
 
-
-mongoose.connect(MONGO_URL, { dbName: MONGO_DBNAME });
+mongoose.connect(url, { dbName: 'ecommerce' });
 
 const messages = new MessageManagerDB();
 
