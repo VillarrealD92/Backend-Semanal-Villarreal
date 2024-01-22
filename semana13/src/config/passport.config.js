@@ -5,6 +5,9 @@ import userModel from '../dao/models/users.model.js';
 import { createHash, isValidPassword } from '../utils.js';
 import jwt from 'jsonwebtoken'; 
 import { randomBytes } from 'crypto'; // generar claves aleatorias
+import config from './config.js';
+
+const { CLIENTID, CLIENTSECRET, CALLBACKURL, ADMINUSER, ADMINPASS } = config
 
 const LocalStrategy = local.Strategy;
 
@@ -12,9 +15,9 @@ const LocalStrategy = local.Strategy;
 
 const initializePassport = () => {
     passport.use('github', new GitHubStrategy({
-        clientID: 'Iv1.45aaf3c9b161f671',
-        clientSecret: '351d175bfa9432c843f96dd29a48884265cba3bf',
-        callbackURL: 'http://127.0.0.1:8080/api/session/githubcallback'
+        clientID: CLIENTID,
+        clientSecret: CLIENTSECRET,
+        callbackURL: CALLBACKURL
     }, async (accessToken, refreshToken, profile, done) => {
         console.log(profile);
 
@@ -60,11 +63,11 @@ const initializePassport = () => {
                 password: createHash(password)
             };
 
-            if (email === 'adminCoder@coder.com' && password !== 'adminCod3r123') {
+            if (email == ADMINUSER && password != ADMINPASS) {
                 return done('Error Email');
             }
 
-            if (email === 'adminCoder@coder.com' && password === 'adminCod3r123') {
+            if (email == ADMINUSER && password != ADMINPASS) {
                 newUser.role = 'admin';
             }
 
