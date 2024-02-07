@@ -1,0 +1,8 @@
+{"level":"info","message":"Server listening on port 8080"}
+{"level":"info","message":"Server listening on port 8080"}
+{"level":"info","message":"Server listening on port 8080"}
+{"level":"debug","message":"Debug message"}
+{"level":"http","message":"HTTP message"}
+{"level":"info","message":"Info message"}
+{"level":"warning","message":"Warning message"}
+{"level":"error","message":"Error message"}
