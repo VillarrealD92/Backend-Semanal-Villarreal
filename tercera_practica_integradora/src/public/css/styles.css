@@ -1,0 +1,74 @@
+
+body{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.cartIcon{
+    font-size:xx-large;
+    cursor: pointer;
+}
+
+footer{
+    margin-top: auto;
+    background-color: lightgrey;
+}
+
+.productsCards{
+    border: 1px solid;
+    border-radius: 10px;
+    transform: scale(.9);
+    min-width: 220px;
+}
+
+.cartBtn{
+    width: 100px;
+    height: 40px;
+    background-color: #4CAF50; 
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    transform: skew(-20deg);
+}
+
+.cartProducts{
+    border: 1px solid;
+    border-radius: 10px;
+    margin: 10px;
+    padding: 10px;
+}
+
+.delProdIcon{
+    font-size: x-large;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.trashIcon{
+    cursor: pointer;
+    font-size: larger;
+}
+
+.loginForm{
+    border: 1px;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: rgb(214, 230, 235);
+}
+
+.message {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 10px;
+    margin-right: 20px;
+    z-index: 9999; 
+}
