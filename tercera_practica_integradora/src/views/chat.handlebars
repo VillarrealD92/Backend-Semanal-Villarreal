@@ -1,14 +1,14 @@
+<h2>Chat Activo</h2>
+<label for="Message">Escribe tu mensaje</label>
+<input type="text" name="Message" placeholder="Escribe un Mensaje" class="messajes">
 
-<main class="text-center">
 
-    <h1 class="text-center">ChatApp</h1>
+<div class="chatContainer">
 
-    <div class="d-flex flex-column align-items-center">
-        <input class="w-25" type="text" name="" id="chatInput"/>
-        <div id="inputError" class="form-text"></div>
-    </div>
-    <div id="chatbox" class="mt-4"></div>
 
-</main>
 
-<script src="/static/js/chatSocket.js"></script>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/index.js"></script>

@@ -1,0 +1,47 @@
+<h1>Escribe El correo con el que estas registrado</h1>
+
+
+
+<label for="email">Email:</label>
+<input type="email" class="register-data" name="email" placeholder="Escribe tu email con el que estas registrado"
+    id="userEmailRecover" />
+
+<br />
+
+<button id="sendEmail">Enviar</button>
+
+<li><a href="/api/session/login" >Volver a inicio de sesion</a></li>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+
+    const emailUser = document.getElementById("userEmailRecover");
+    const sendEmail = document.getElementById("sendEmail");
+
+    sendEmail.addEventListener('click', async (e) => {
+
+
+Swal.fire({
+    icon:'success',
+    title: 'Correo de recuperacion enviado',
+    position: 'top-end',
+    showConfirmButton: false,
+    toast: true,
+    timer: 1000,
+    background:'black',
+    color: "orange"
+})
+        await fetch(`/api/session/foundEmailUser/${emailUser.value}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+
+        })
+
+
+
+
+</script>

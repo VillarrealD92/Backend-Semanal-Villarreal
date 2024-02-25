@@ -1,25 +1,32 @@
+export const justPublicWitoutSession = (req, res, next) => {
+    if (!req.cookies.cookieUS) return res.redirect('/api/session/login')
 
-
-export const checkRegisteredUser = (req, res, next) => {
-    if(req.session?.user) return res.redirect("/profile")
     return next()
 }
 
-export const auth = (req, res, next) => {
-    if(req.session?.user) return next()
-    res.redirect('/')
+export const authorization = (roles) => {
+
+    return async (req, res, next) => {
+
+        const { user } = req.user;
+
+        if (!user) return res.status(400).send({ error: 'Error' })
+
+        if (roles.indexOf(user.role) !== -1 ) {
+            return next()
+        }
+        return res.status(403).send({ error: 'Not allowed', access: roles, user:user.role })
+       
+    }
 }
 
-export const checkAdminPermissions = (req, res, next) => {
-    const sessionActive = req.session.user
-    if (sessionActive == undefined) return res.send("Please Login")
-    if(req.session.user.role !== "admin") return res.status(403).send("Not allowed")
-    next()
-}
+export const chatOnlyForUser = (role) => {
 
-export const checkUserPermissions = (req, res, next) => {
-    const sessionActive = req.session.user
-    if (sessionActive == undefined) return res.send("Please Login")
-    if(req.session.user.role !== "user") return res.status(403).send("Not allowed")
-    next()
+    return async (req, res, next) => {
+        const { user } = req.user;
+
+        if (user.role !== role) return res.send({ Answer: 'only users' })
+
+        return next()
+    }
 }

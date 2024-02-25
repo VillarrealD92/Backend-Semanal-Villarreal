@@ -1,181 +1,133 @@
-import passport from "passport";
-import local from "passport-local";
-import GitHubStrategy from "passport-github2";
-import { createHash, validatePassword } from "../utils.js";
-import config from "./config.js";
-import { cartService, userService } from "../services/index.repositories.js";
-import { sendPasswordResetEmail, generateResetToken, isResetLinkExpired } from "../utils.js";
-import bcrypt from "bcrypt";
+import passport from 'passport';
+import passportJWT from 'passport-jwt';
+import GitHubStrategy from 'passport-github2'
+import local from 'passport-local';
+import { userModel } from '../DAO/mongoDB/models/user.model.js'
+import { createHash, isValidPassword, generateToken } from '../utils.js';
+import config from './config.js';  
 
-const { CLIENTID, CLIENTSECRET, CALLBACKURL, ADMINUSER, ADMINPASS } = config;
+const {KEY, CLIENTID, CLIENTSECRET, CALLBACKURL, ADMINUSER, ADMINPASS }= config
 
 const LocalStrategy = local.Strategy;
+const JWTStrategy = passportJWT.Strategy;
+
+const cookieExtractor = req => {
+    let token = (req?.cookies) ? req.cookies['cookieUS'] : null
+
+    if(!token){
+        token= req?.headers?.token
+    }
+    return token
+}
 
 const initializePassport = () => {
-    
-    passport.use("login", new LocalStrategy({
-        usernameField: "email"
-    }, async (username, password, done) => {
-        if (username === ADMINUSER && password === ADMINPASS) {
-            const user = {
-                _id: "admin",
-                first_name: "admin",
-                last_name: "admin",
-                email: ADMINUSER,
-                age: "",
-                password: ADMINPASS,
-                role: "admin",
-                cart: ""
-            };
-            return done(null, user);
-        }
 
-        try {
-            const user = await userService.getUserByEmail(username);
-            if (!user) {
-                console.log("No user with that email address was found");
-                return done(null, false);
-            }
-
-            if (!validatePassword(password, user)) {
-                console.log("Invalid Password");
-                return done(null, false);
-            }
-
-            done(null, user);
-        } catch (error) {
-            done("Error: " + error);
-        }
-    }));
-
-    passport.use("github", new GitHubStrategy({
+    passport.use('github', new GitHubStrategy({
         clientID: CLIENTID,
         clientSecret: CLIENTSECRET,
-        callbackURL: CALLBACKURL,
-        scope: ["user:email"]
-    }, async (accessToken, refreshToken, profile, done) =>{
+        callbackURL: CALLBACKURL
+    }, async (accessToken, refreshToken, profile, done) => {
         console.log(profile);
+
         try {
-            const user = await userService.getUserByEmail(profile._json.email);
-            console.log(user);
-            if (user) {
-                console.log("Logged in");
-                return done(null, user);
+            let user = await userModel.findOne({ email: profile._json.email })
+            if (!user) {
+                 user = {
+                    name: profile._json.name,
+                    last_name: 'Last name Github',
+                    email: profile._json.email,
+                    age: 1,
+                    password: 'Password Github'
+                }
+
+                const result= await userModel.create(user);
+                user._id = result._id
             }
 
-            const newUser = {
-                first_name: profile._json.name,
-                last_name: "",
-                email: profile._json.email,
-                password: ""
-            };
+            const token = generateToken(user);
+            user.token = token
 
-            const result = await userService.createUser(newUser);
+            return done(null, user)
 
-            return done(null, result);
         } catch (error) {
-            return done("Couldn't login with github: "+error);
+            return done('Error login with github ' + error)
         }
     }));
 
-    passport.use("register", new LocalStrategy({
+
+    passport.use('current', new JWTStrategy({
+        secretOrKey: KEY,
+        jwtFromRequest: passportJWT.ExtractJwt.fromExtractors([cookieExtractor])
+    }, (jwt_payload, done) => {
+        return done(null, jwt_payload)
+    }))
+
+    passport.use('register', new LocalStrategy({
         passReqToCallback: true,
-        usernameField: "email"
+        usernameField: 'email'
     }, async (req, username, password, done) => {
-        const { first_name, last_name, email, age } = req.body;
+
+        const { name, email, age, last_name } = req.body
         try {
-            const user = await userService.getUserByEmail(username);
+            const user = await userModel.findOne({ email: username })
             if (user) {
-                console.log("User is already registered");
-                return done(null, false);
+                req.logger.info('User already exist')
+                return done(null, false)
             }
-            
-            const newCart = await cartService.createNewCart();
-            console.log(newCart);
+
             const newUser = {
-                first_name,
-                last_name,
-                email,
-                age,
-                password: createHash(password),
-                cart: newCart._id
-            };
-    
-            const result = await userService.createUser(newUser);
-            return done(null, result);
-        } catch (error) {
-            done("Error: " + error);
-        }        
-    }));
-
-    passport.use("reset-password", new LocalStrategy({
-        usernameField: "email"
-    }, async (email, _, done) => {
-        try {
-            const user = await userService.getUserByEmail(email);
-            if (!user) {
-                console.log("No user with that email address was found");
-                return done(null, false);
+                name: name,
+                last_name: last_name,
+                email: email,
+                age: age,
+                password: createHash(password)
             }
 
-            const resetToken = generateResetToken();
-            const resetExpiration = new Date();
-            resetExpiration.setHours(resetExpiration.getHours() + 1); 
-            await userService.setResetPasswordToken(user._id, resetToken, resetExpiration);
+            if (email == ADMINUSER && password != ADMINPASS) {
+                return done('Wrong Email ')
+            }
 
-            const resetLink = `http://localhost:8080/reset-password/${resetToken}`;
-            await sendPasswordResetEmail(email, resetLink);
-
-            done(null, true); 
+            if (email == ADMINUSER && password == ADMINPASS) {
+                newUser.role = 'admin'
+            }
+            const result = await userModel.create(newUser)
+            return done(null, result)
         } catch (error) {
-            done("Error: " + error);
+            done('Error with registration' + error)
         }
     }));
 
-    passport.use("reset-password-confirm", new LocalStrategy({
-        passReqToCallback: true,
-        usernameField: "token"
-    }, async (req, token, _, done) => {
-        try {
-            const user = await userService.getUserByResetToken(token);
-            if (!user) {
-                console.log("Invalid or expired reset token");
-                return done(null, false);
+    passport.use('login', new LocalStrategy(
+        { usernameField: 'email' },
+        async (username, password, done) => {
+            try {
+                const user = await userModel.findOne({ email: username })
+                if (!user) {
+                    return done(null, false)
+                }
+
+                if (!isValidPassword(user, password)) {
+                    return done(null, false)
+                }
+
+                const token = generateToken(user);
+                    user.token = token
+
+                return done(null, user)
+            } catch (error) {
+                return done('Error loggin in ' + error)
             }
-
-            if (user.resetPasswordExpiration < new Date()) {
-                console.log("Reset token has expired");
-                return done(null, false);
-            }
-
-            const hashedPassword = createHash(req.body.password);
-            await userService.updateUserPassword(user._id, hashedPassword);
-
-            
-            await userService.clearResetPasswordToken(user._id);
-
-            done(null, true); 
-        } catch (error) {
-            done("Error: " + error);
         }
-    }));
-
-    passport.use("current", new LocalStrategy({}, async () =>{
-        
-    }) );
+    ))
 
     passport.serializeUser((user, done) => {
-        done(null, user._id);
-    });
+        done(null, user._id)
+    })
 
-    passport.deserializeUser(async(id, done) =>{
-        if (id === "admin") {
-            return done(null, false);
-        }
+    passport.deserializeUser(async (id, done) => {
+        const user = await userModel.findById(id)
+        done(null, user)
+    })
+}
 
-        const user = await userService.getUserById(id);
-        done(null, user);
-    });
-};
-
-export default initializePassport;
+export default initializePassport
