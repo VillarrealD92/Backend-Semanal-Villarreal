@@ -7,7 +7,6 @@
   
   body {
     background-attachment: fixed;
-    background: url('../img/pc-fondo.jpg');
   }
   
   #container {
@@ -24,8 +23,6 @@
     display: flex;
     flex-flow: wrap;
     justify-content: space-around;
-    border: 2px solid white;
-    box-shadow: 0px 0px 10px #ccc;
     width: 85%;
     height: 55rem;
     margin-left: 10rem;

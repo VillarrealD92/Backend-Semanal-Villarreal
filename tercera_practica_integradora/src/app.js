@@ -7,6 +7,7 @@ import productsViews from './routes/views.router.js';
 import messageRouter from './routes/messages.router.js';
 import sessionRouter from './routes/session.router.js';
 import loggerRouter from './routes/logger.router.js';
+import userRouter from './routes/user.router.js';
 import handlebars from 'express-handlebars';
 import { Server } from 'socket.io';
 import __dirname from './utils.js';
@@ -14,7 +15,7 @@ import DBMessageManager from './DAO/mongoDB/messageManager.js';
 import initializePassport from './config/passport.config.js';
 import passport from 'passport';
 import config from './config/config.js';  
-import { addLoggerDevelopment } from './utlis/loggerDev.js';
+import { addLoggerDevelopment } from './utlis/loggerDev.js';1
 
 const app = express();
 
@@ -47,6 +48,7 @@ app.use('/api/carts', cartsRouter);
 app.use('/messages', messageRouter);
 app.use('/api/session', sessionRouter);
 app.use('/api/loggerTest', loggerRouter);
+app.use('/api/user', userRouter);
 
 const {PORT }= config
 const httpServer= app.listen(PORT, () => console.log(`Servidor activo en el puerto ${PORT}`))
