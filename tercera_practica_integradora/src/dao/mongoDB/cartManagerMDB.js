@@ -79,7 +79,7 @@ class CartManagerDB {
         const products = new ProductManagerMDB();
 
         try {
-            const carrito = await cartModel.findOne({ _id: cid });
+            const carrito = await cartModel.findOne({ userCart: cid });
 
             const prod = await products.getProductById(pid);
 
@@ -92,7 +92,7 @@ class CartManagerDB {
 
             carrito.products.splice(product, 1);
 
-            await cartModel.updateOne({ _id: cid }, carrito);
+            await cartModel.updateOne({ userCart: cid }, carrito);
             return 'Se elimino el producto correctamente'
 
         } catch (error) {
@@ -103,13 +103,13 @@ class CartManagerDB {
     async overwriteCart(cid, newProds){
 
         try {
-            const carrito = await cartModel.findOne({ _id: cid });
+            const carrito = await cartModel.findOne({ userCart: cid });
 
             const prods = newProds;
 
             carrito.products=prods
 
-            await cartModel.updateOne({ _id: cid }, carrito);
+            await cartModel.updateOne({ userCart: cid }, carrito);
             return 'Nuevo carrito guardado'
 
         } catch (error) {
@@ -124,7 +124,7 @@ class CartManagerDB {
 
         try {
 
-            const carrito = await cartModel.findOne({ _id: cid });
+            const carrito = await cartModel.findOne({ userCart: cid });
             const prod = await products.getProductById(pid);
 
             if (!prod) return 'Product not found'
@@ -140,7 +140,7 @@ class CartManagerDB {
                 product.quantity= newQuantity;
             }
 
-            await cartModel.updateOne({ _id: cid }, carrito);
+            await cartModel.updateOne({ userCart: cid }, carrito);
             return carrito
             
         } catch (error) {
@@ -151,13 +151,13 @@ class CartManagerDB {
      async deletCart(cid){
 
         try {
-            const carrito = await cartModel.findOne({ _id: cid });
+            const carrito = await cartModel.findOne({ userCart: cid });
 
             if (!carrito) return 'Carrito not found'
 
             carrito.products=[];
 
-            await cartModel.updateOne({ _id: cid }, carrito);
+            await cartModel.updateOne({ userCart: cid }, carrito);
             return 'Se eliminaron todos los productos del carrito'
 
         } catch (error) {
