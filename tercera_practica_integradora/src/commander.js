@@ -1,11 +1,11 @@
-import {Command} from 'commander';
+import { Command } from 'commander';
 
-const program= new Command()
+const program = new Command();
 
 program
-    .option('-d', 'Variables para debug', false)
-    .option('-p <option>', 'Persistence', String)
+    .option('-d, --debug', 'Variables para debug', false)
+    .option('-p <option>, --persistence <option>', 'Persistence', String);
 
-program.parse()
+program.parse();
 
-export let programOPTS=program.opts()
+export const programOPTS = program.opts();
