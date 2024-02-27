@@ -1,12 +1,12 @@
 import { Router } from "express";
 import {messages} from "../controllers/views.controllers.js";
 import passport from 'passport';
-import { chatOnlyForUser, justPublicWitoutSession } from "../middlewares/middlewares.js";
+import { chatOnlyForUser, justPublicWithoutSession } from "../middlewares/middlewares.js";
 
 const router = Router();
 
 router.get('/',
-justPublicWitoutSession,
+justPublicWithoutSession,
 passport.authenticate('current', { session: false }),
 chatOnlyForUser('user'),
 messages );

@@ -1,4 +1,4 @@
-export const justPublicWitoutSession = (req, res, next) => {
+export const justPublicWithoutSession = (req, res, next) => {
     if (!req.cookies.cookieUS) return res.redirect('/api/session/login')
 
     return next()

@@ -1,11 +1,11 @@
 import { Router } from "express";
 import passport from "passport";
 import {homeProducts, realTimeProducts, cartUser, register, login, profile, foundEmailPage } from "../controllers/views.controllers.js";
-import {justPublicWitoutSession} from '../middlewares/middlewares.js'
+import {justPublicWithoutSession} from '../middlewares/middlewares.js'
 
 const router=Router();
 
-router.get('/', justPublicWitoutSession ,passport.authenticate('current', { session: false }), homeProducts);
+router.get('/', justPublicWithoutSession ,passport.authenticate('current', { session: false }), homeProducts);
 
 router.get('/realTimeProducts', realTimeProducts );
 
