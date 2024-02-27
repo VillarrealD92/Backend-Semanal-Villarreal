@@ -1,137 +1,106 @@
 import { CartRepository, TicketRepository, ProductRepository } from "../services/index.services.js";
+import { logger } from "../utlis/loggerDev.js"; 
 
-export const createCart = (req, res) => {
-
-    const {user}= req.user;
+export const createCart = async (req, res) => {
     try {
-
-        const cart = CartRepository.createCart(user._id);
-
-        res.send({ status: "success", payload: cart })
-
+        const { user } = req;
+        const cart = await CartRepository.createCart(user._id);
+        res.send({ status: "success", payload: cart });
     } catch (error) {
-        return error
+        logger.error("Error creating cart: " + error.message); 
+        res.status(500).send("Error creating cart");
     }
-}
+};
 
 export const getCart = async (req, res) => {
     try {
-
         const idCart = req.params.cid;
         const cartFound = await CartRepository.getCartById(idCart);
-
-        if (!cartFound) return (res.status(400).send(false));
-
+        if (!cartFound) return res.status(404).send("Cart not found");
         req.logger.info(JSON.stringify(cartFound));
-
-        return res.send({ status: cartFound })
+        return res.send({ status: "success", payload: cartFound });
     } catch (error) {
-        return false
+        logger.error("Error retrieving cart: " + error.message);
+        res.status(500).send("Error retrieving cart");
     }
-}
+};
 
 export const addProductCart = async (req, res) => {
-
     try {
-        const creator = req.user
+        const creator = req.user;
         const cid = req.params.cid;
         const pid = req.params.pid;
 
         const productOwner = await ProductRepository.getProductById(pid);
 
-        if(productOwner.owner == creator.user.email){
-            req.logger.warning("You can't add this producto to cart, becouse you are the creator");
-           return res.status(401).send({error:"You can't add this producto to cart, becouse you are the creator"});
+        if (productOwner.owner === creator.user.email) {
+            logger.warning("You can't add this product to cart because you are the creator");
+            return res.status(401).send("You can't add this product to cart because you are the creator");
         }
 
         const product = await CartRepository.addProductCart(cid, pid);
-
-        res.send({ result: product })
-
-    } catch (err) {
-        res.status(500).send("No se pudo agregar el producto" + err)
+        res.send({ result: product });
+    } catch (error) {
+        logger.error("Error adding product to cart: " + error.message);
+        res.status(500).send("Error adding product to cart");
     }
+};
 
-}
-
-export const deletProductCart = async (req, res) => {
-
+export const deleteProductCart = async (req, res) => {
     try {
         const cid = req.params.cid;
         const pid = req.params.pid;
-
-        const result = await CartRepository.deletProductCart(cid, pid)
-
-        res.send({ result: result })
-
-    } catch (err) {
-        res.status(500).send("Error borrando el carrito" + err)
+        const result = await CartRepository.deleteProductCart(cid, pid);
+        res.send({ result: result });
+    } catch (error) {
+        logger.error("Error deleting product from cart: " + error.message);
+        res.status(500).send("Error deleting product from cart");
     }
+};
 
-}
-
-export const overwriteCart= async (req, res) => {
-
+export const overwriteCart = async (req, res) => {
     try {
         const cid = req.params.cid;
-
-        const result = await CartRepository.overwriteCart(cid, req.body)
-
-        res.send({ result: result })
-
-    } catch (err) {
-        res.status(500).send("Error al editar el carrito" + err)
+        const result = await CartRepository.overwriteCart(cid, req.body);
+        res.send({ result: result });
+    } catch (error) {
+        logger.error("Error overwriting cart: " + error.message);
+        res.status(500).send("Error overwriting cart");
     }
+};
 
-}
-
-export const uptadeQuantityProduct= async (req, res) => {
-
+export const updateQuantityProduct = async (req, res) => {
     try {
         const cid = req.params.cid;
         const pid = req.params.pid;
-        const {quantity}= req.body;
-
-        const result = await CartRepository.uptadeQuantity(cid,pid,quantity);
-
-        res.send({ result: result })
-
-    } catch (err) {
-        res.status(500).send("Error quantity" + err)
+        const { quantity } = req.body;
+        const result = await CartRepository.updateQuantity(cid, pid, quantity);
+        res.send({ result: result });
+    } catch (error) {
+        logger.error("Error updating product quantity: " + error.message);
+        res.status(500).send("Error updating product quantity");
     }
+};
 
-}
-
-export const deletCart= async (req, res) => {
-
+export const deleteCart = async (req, res) => {
     try {
         const cid = req.params.cid;
-
-        const result = await CartRepository.deletCart(cid)
-
-        res.send({ result: result })
-
-    } catch (err) {
-        res.status(500).send("Error al vaciar el carrito" + err)
+        const result = await CartRepository.deleteCart(cid);
+        res.send({ result: result });
+    } catch (error) {
+        logger.error("Error deleting cart: " + error.message);
+        res.status(500).send("Error deleting cart");
     }
+};
 
-}
-
-export const purchase= async (req, res) =>{
-
-try{
-
-    const {user}= req.user;
-
-    const cid = req.params.cid;
-
-    const result= await TicketRepository.createTicket(cid, user);
-
-    return res.send({resultPurchase: result})
-}
-
-catch (err) {
-    res.status(400).send("No se pudo realizar la compra" + err)
-}
-
-}
+export const purchase = async (req, res) => {
+    try {
+        const { user } = req;
+        const cid = req.params.cid;
+        const result = await TicketRepository.createTicket(cid, user);
+        res.send({ resultPurchase: result });
+    } catch (error) {
+        logger.error("Error making purchase: " + error.message);
+        res.status(500).send("Error making purchase");
+    }
+};

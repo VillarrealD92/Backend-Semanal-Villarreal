@@ -9,6 +9,9 @@ export default class Mail {
             auth: {
                 user: config.MAIL_USER,
                 pass: config.MAIL_PASS
+            },
+            tls: {
+                rejectUnauthorized: false
             }
         })
     }
@@ -21,7 +24,7 @@ export default class Mail {
             html
         }
 
-        const result =await this.transport.sendMail(opt)
+        const result = await this.transport.sendMail(opt)
 
         return result
     }

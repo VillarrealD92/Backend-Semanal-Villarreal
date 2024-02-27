@@ -1,6 +1,6 @@
 import { Router } from "express";
 import passport from 'passport';
-import { register, login, current, githubcallback, userId, sendEmail, recoverPassword, changePassword, logout } from "../controllers/session.controllers.js";
+import { register, login, current, githubCallback, getUserId, sendEmail, recoverPassword, changePassword, logout } from "../controllers/session.controllers.js";
 
 const router = Router();
 
@@ -20,10 +20,10 @@ router.get('/github',
 passport.authenticate('github', { scope: ['user:email'] }),
 async (req, res) => { })
 
-router.get('/githubcallback',passport.authenticate('github', { failureRedirect: '/error' }),githubcallback);
+router.get('/githubcallback',passport.authenticate('github', { failureRedirect: '/error' }),githubCallback);
 
 router.get("/logout", logout)
 
-router.get('/user', passport.authenticate('current', { session: false }), userId)
+router.get('/user', passport.authenticate('current', { session: false }), getUserId)
 
 export default router

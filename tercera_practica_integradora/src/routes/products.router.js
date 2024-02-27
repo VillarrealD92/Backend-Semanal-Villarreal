@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getProducts, productId, createProduct, updateProduct, deletProduct} from '../controllers/products.controllers.js';
+import { getProducts, getProductById, createProduct, updateProduct, deleteProduct} from '../controllers/products.controllers.js';
 import { authorization} from '../middlewares/middlewares.js';
 import { uploader } from '../utlis/multer.js';
 import passport from 'passport';
@@ -11,7 +11,7 @@ passport.authenticate('current', { session: false }),
 getProducts
 )
 
-router.get('/:pid', productId);
+router.get('/:pid', getProductById);
 
 router.post('/',
 uploader.array('thumbnails', 3),
@@ -28,6 +28,6 @@ updateProduct );
 router.delete("/:pid", 
 passport.authenticate('current', { session: false }),
 authorization(['admin', 'premium']),
-deletProduct )
+deleteProduct )
 
 export default router

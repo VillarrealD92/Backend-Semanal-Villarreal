@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createCart, getCart, addProductCart, deletProductCart, overwriteCart, uptadeQuantityProduct, deletCart, purchase } from '../controllers/cart.controllers.js';
+import { createCart, getCart, addProductCart, deleteProductCart, overwriteCart, updateQuantityProduct, deleteCart, purchase } from '../controllers/cart.controllers.js';
 import passport from 'passport';
 import { authorization } from '../middlewares/middlewares.js';
 
@@ -16,13 +16,13 @@ passport.authenticate('current', { session: false }),
 authorization(['user','premium']),
 addProductCart)
 
-router.delete('/:cid/product/:pid', deletProductCart)
+router.delete('/:cid/product/:pid', deleteProductCart)
 
 router.put('/:cid', overwriteCart )
 
-router.put('/:cid/product/:pid', uptadeQuantityProduct)
+router.put('/:cid/product/:pid', updateQuantityProduct)
 
-router.delete('/:cid', deletCart)
+router.delete('/:cid', deleteCart)
 
 router.get('/:cid/purchase',
 passport.authenticate('current', { session: false }),

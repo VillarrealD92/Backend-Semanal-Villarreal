@@ -1,4 +1,5 @@
 import { messageModel } from "./models/message.model.js";
+import { logger } from "../../utlis/loggerDev.js"; 
 
 class MessageManagerDB {
 
@@ -7,13 +8,16 @@ class MessageManagerDB {
             const messages = await messageModel.find();
             return messages;
         } catch (error) {
+            logger.error("Error in sendMessages: " + error.message); 
             return [];
         }
     }
+
     async addMessage(Newmessage) {
-        const { user, message} = Newmessage;
+        const { user, message } = Newmessage;
 
         if (!user || !message) {
+            logger.error("Error in addMessage: Invalid message"); 
             return 'Error creating the message';
         }
 
@@ -24,12 +28,13 @@ class MessageManagerDB {
 
         try {
             const result = await messageModel.create(newMessage);
-
-            return 'Mensage creado correctamente';
+            logger.info("Message added successfully"); 
+            return 'Mensaje creado correctamente';
         } catch (error) {
-            return 'Error creating the mensage';
+            logger.error("Error in addMessage: " + error.message);
+            return 'Error creating the message';
         }
     }
 }
 
-export default MessageManagerDB
+export default MessageManagerDB;
