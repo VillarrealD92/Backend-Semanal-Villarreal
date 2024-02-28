@@ -1,0 +1,41 @@
+<main class="container">
+    {{#if cart}}
+        <input name="cartId" class="d-none cartId" value={{cart._id}}>
+        {{#if cart.products}}
+            <div class="mt-4 mb-5">
+                {{#each cart.products}}
+                    <div class="row border-bottom py-3">
+                        <div class="col-md-8">
+                            <h5>{{this.product.title}}</h5>
+                            <p>Quantity: {{this.quantity}}</p> 
+                        </div>
+                        <div class="col-md-4">
+                            <p>Price per Unit: ${{this.product.price}}</p> 
+                            <input name="productQuantity" class="d-none productQuantity" value={{this.quantity}}> 
+                            <input name="productPrice" class="d-none productPrice" value={{this.product.price}}>
+                            <p class="totalProductAmount"></p>  
+                        </div>
+                        <div class="col-md-1">
+                            <i class="bi bi-x-lg delProdIcon"></i>
+                            <input name="cartProductId" type="text" class="d-none cartProductId" value={{this.product._id}}>
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+            <div class="row">
+                <div class="col-md-6 ms-5 mt-5">
+                    <h5 class="finalAmount"></h5>
+                </div>
+                <div class="col-md-6">
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end ms-md-4 mt-md-4">
+                        <button class="btn btn-primary checkOut">Buy!</button>
+                        <input name="cartId" class="d-none" type="text" value={{cart._id}}>
+                        <i class="bi bi-trash3 trashIcon ms-3"></i>
+                    </div>
+                </div>
+            </div>
+        {{else}}
+            <p>Your cart is empty</p>
+        {{/if}}
+    {{/if}}
+</main>

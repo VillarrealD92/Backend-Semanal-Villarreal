@@ -1,0 +1,111 @@
+paths:
+  /api/cart:
+    post:
+      summary: Crear un nuevo carrito
+      description: Crea un nuevo carrito de compras
+      security:
+        - passport
+      responses:
+        200:
+          description: Éxito, carrito creado correctamente
+      tags:
+        - Cart
+
+  /api/cart/{cid}:
+    get:
+      summary: Obtener un carrito por su ID
+      description: Devuelve información sobre un carrito específico
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito a obtener
+      responses:
+        200:
+          description: Éxito, devuelve información sobre el carrito
+      tags:
+        - Cart
+
+    put:
+      summary: Actualizar un carrito por su ID
+      description: Actualiza la información de un carrito específico
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito a actualizar
+      responses:
+        200:
+          description: Éxito, carrito actualizado correctamente
+      tags:
+        - Cart
+
+    delete:
+      summary: Eliminar un carrito por su ID
+      description: Elimina un carrito específico
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito a eliminar
+      responses:
+        204:
+          description: Éxito, carrito eliminado correctamente
+      tags:
+        - Cart
+
+  /api/cart/{cid}/product/{pid}:
+    post:
+      summary: Agregar un producto a un carrito
+      description: Agrega un producto a un carrito específico
+      security:
+        - passport
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito al que se va a agregar el producto
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto que se va a agregar al carrito
+      responses:
+        200:
+          description: Éxito, producto agregado al carrito correctamente
+      tags:
+        - Cart
+
+    delete:
+      summary: Eliminar un producto de un carrito
+      description: Elimina un producto de un carrito específico
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito del que se va a eliminar el producto
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto que se va a eliminar del carrito
+      responses:
+        204:
+          description: Éxito, producto eliminado del carrito correctamente
+      tags:
+        - Cart
+
+  /api/cart/{cid}/purchase:
+    get:
+      summary: Realizar una compra
+      description: Realiza una compra con el contenido del carrito especificado
+      security:
+        - passport
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito que se va a comprar
+      responses:
+        200:
+          description: Éxito, compra realizada correctamente
+      tags:
+        - Cart

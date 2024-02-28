@@ -1,0 +1,10 @@
+paths:
+  /api/logger:
+    get:
+      summary: Obtener registros de logger
+      description: Obtiene registros de actividad del logger
+      responses:
+        200:
+          description: Éxito, devuelve registros de actividad del logger
+      tags:
+        - Logger

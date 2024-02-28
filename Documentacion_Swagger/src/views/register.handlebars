@@ -1,0 +1,34 @@
+<div class="container">
+    <div id="register" class="mt-5">
+        <h1>Registro de usuario</h1>
+
+        <form action="/api/session/register" method="post">
+            <div class="mb-3">
+                <label for="name" class="form-label">Nombre:</label>
+                <input type="text" class="form-control register-data" name="name" placeholder="Escribe tu nombre">
+            </div>
+
+            <div class="mb-3">
+                <label for="last_name" class="form-label">Apellido:</label>
+                <input type="text" class="form-control register-data" name="last_name" placeholder="Escribe tu apellido">
+            </div>
+
+            <div class="mb-3">
+                <label for="age" class="form-label">Edad:</label>
+                <input type="number" class="form-control register-data" name="age" placeholder="Escribe tu edad">
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email:</label>
+                <input type="email" class="form-control register-data" name="email" placeholder="Escribe tu email">
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Contraseña:</label>
+                <input type="password" class="form-control register-data" name="password" placeholder="Escribe tu contraseña">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+<div class="container">
+    <h1 class="mt-5">Productos en tiempo real</h1>
+
+    <div class="container-products">
+        {{#each products}}
+        <div class="card mt-4" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{this.title}}</h5>
+                <p class="card-text">{{this.description}}</p>
+                <p class="card-text">Precio: ${{this.price}}</p>
+                <p class="card-text">Stock: {{this.stock}}</p>
+                <p class="card-text">Código: {{this.code}}</p>
+                <p class="card-text">Categoría: {{this.category}}</p>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/index.js"></script>

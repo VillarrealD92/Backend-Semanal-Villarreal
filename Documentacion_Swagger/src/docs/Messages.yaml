@@ -1,0 +1,15 @@
+paths:
+  /api/messages:
+    get:
+      summary: Obtener mensajes
+      description: Obtiene mensajes disponibles para el usuario
+      security:
+        - passport:
+            - current: []
+      responses:
+        200:
+          description: Éxito, devuelve mensajes disponibles para el usuario
+      tags:
+        - Messages
+      
+    

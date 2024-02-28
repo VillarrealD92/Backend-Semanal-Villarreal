@@ -1,0 +1,13 @@
+paths:
+  /api/user:
+    get:
+      summary: Cambiar rol de usuario
+      description: Cambia el rol del usuario actualmente autenticado
+      security:
+        - passport:
+            - current: []
+      responses:
+        200:
+          description: Éxito, rol de usuario cambiado correctamentes
+      tags:
+        - User
