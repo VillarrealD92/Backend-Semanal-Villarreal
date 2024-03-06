@@ -1,0 +1,1 @@
+iniciar cpn node src/app,js -p MONGO

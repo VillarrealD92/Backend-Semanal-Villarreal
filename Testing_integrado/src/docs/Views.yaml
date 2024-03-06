@@ -1,0 +1,81 @@
+paths:
+  /:
+    get:
+      summary: Página de inicio
+      description: Muestra la página de inicio con los productos disponibles
+      security:
+        - passport:
+            - current: []
+      responses:
+        200:
+          description: Éxito, página de inicio cargada correctamente
+      tags:
+        - Views
+
+  /realTimeProducts:
+    get:
+      summary: Productos en tiempo real
+      description: Muestra los productos en tiempo real
+      responses:
+        200:
+          description: Éxito, productos en tiempo real cargados correctamente
+      tags:
+        - Views
+
+  /carts/{cid}:
+    get:
+      summary: Detalles del carrito de usuario
+      description: Muestra los detalles del carrito de un usuario específico
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito del usuario
+      responses:
+        200:
+          description: Éxito, detalles del carrito de usuario cargados correctamente
+      tags:
+        - Views
+
+  /api/session/register:
+    get:
+      summary: Página de registro
+      description: Muestra la página de registro
+      responses:
+        200:
+          description: Éxito, página de registro cargada correctamente
+      tags:
+        - Views
+
+  /api/session/login:
+    get:
+      summary: Página de inicio de sesión
+      description: Muestra la página de inicio de sesión
+      responses:
+        200:
+          description: Éxito, página de inicio de sesión cargada correctamente
+      tags:
+        - Views
+
+  /api/session/current:
+    get:
+      summary: Página de perfil de usuario
+      description: Muestra la página de perfil del usuario actualmente autenticado
+      security:
+        - passport:
+            - current: []
+      responses:
+        200:
+          description: Éxito, página de perfil de usuario cargada correctamente
+      tags:
+        - Views
+
+  /api/session/foundEmailUser:
+    get:
+      summary: Página de recuperación de contraseña
+      description: Muestra la página de recuperación de contraseña por correo electrónico
+      responses:
+        200:
+          description: Éxito, página de recuperación de contraseña cargada correctamente
+      tags:
+        - Views

@@ -1,0 +1,90 @@
+paths:
+  /api/session/register:
+    post:
+      summary: Registro de usuario
+      description: Registra un nuevo usuario en el sistema
+      responses:
+        200:
+          description: Éxito, usuario registrado correctamente
+      tags:
+        - Sessions
+
+  /api/session/login:
+    post:
+      summary: Iniciar sesión
+      description: Inicia sesión con las credenciales proporcionadas
+      responses:
+        200:
+          description: Éxito, sesión iniciada correctamente
+      tags:
+        - Sessions
+
+  /api/session/foundEmailUser/{email}:
+    post:
+      summary: Encontrar usuario por email
+      description: Envía un correo electrónico al usuario con el enlace para recuperar la contraseña
+      parameters:
+        - name: email
+          in: path
+          required: true
+          description: Correo electrónico del usuario
+      responses:
+        200:
+          description: Éxito, correo electrónico enviado correctamente
+      tags:
+        - Sessions
+
+  /api/session/recoverPassword/{token}:
+    get:
+      summary: Recuperar contraseña
+      description: Recupera la contraseña del usuario utilizando el token proporcionado
+      parameters:
+        - name: token
+          in: path
+          required: true
+          description: Token de recuperación de contraseña
+      responses:
+        200:
+          description: Éxito, contraseña recuperada correctamente
+      tags:
+        - Sessions
+
+  /api/session/recoverPassword:
+    post:
+      summary: Cambiar contraseña
+      description: Cambia la contraseña del usuario con la nueva contraseña proporcionada
+      responses:
+        200:
+          description: Éxito, contraseña cambiada correctamente
+      tags:
+        - Sessions
+
+  /api/session/current:
+    post:
+      summary: Obtener usuario actual
+      description: Obtiene la información del usuario actualmente autenticado
+      responses:
+        200:
+          description: Éxito, devuelve la información del usuario actual
+      tags:
+        - Sessions
+
+  /api/session/logout:
+    get:
+      summary: Cerrar sesión
+      description: Cierra la sesión del usuario actual
+      responses:
+        200:
+          description: Éxito, sesión cerrada correctamente
+      tags:
+        - Sessions
+
+  /api/session/user:
+    get:
+      summary: Obtener ID de usuario
+      description: Obtiene el ID del usuario actualmente autenticado
+      responses:
+        200:
+          description: Éxito, devuelve el ID del usuario actualmente autenticado
+      tags:
+        - Sessions

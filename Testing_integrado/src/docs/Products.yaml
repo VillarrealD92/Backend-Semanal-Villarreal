@@ -1,0 +1,86 @@
+paths:
+  /api/products:
+    get:
+      summary: Obtener todos los productos
+      description: Obtiene todos los productos disponibles
+      security:
+        - passport:
+            - current: []
+      responses:
+        200:
+          description: Éxito, devuelve todos los productos disponibles
+      tags:
+        - Products
+
+    post:
+      summary: Crear un nuevo producto
+      description: Crea un nuevo producto
+      security:
+        - passport:
+            - current: []
+      parameters:
+        - in: formData
+          name: thumbnails
+          type: file
+          description: Imágenes del producto (hasta 3 imágenes)
+          required: false
+      responses:
+        200:
+          description: Éxito, nuevo producto creado correctamente
+      tags:
+        - Products
+
+  /api/products/{pid}:
+    get:
+      summary: Obtener un producto por su ID
+      description: Devuelve información sobre un producto específico
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto a obtener
+      responses:
+        200:
+          description: Éxito, devuelve información sobre el producto
+      tags:
+        - Products
+
+    put:
+      summary: Actualizar un producto por su ID
+      description: Actualiza la información de un producto específico
+      security:
+        - passport:
+            - current: []
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto a actualizar
+        - in: formData
+          name: thumbnails
+          type: file
+          description: Imágenes del producto (hasta 3 imágenes)
+          required: false
+      responses:
+        200:
+          description: Éxito, producto actualizado correctamente
+      tags:
+        - Products
+
+    delete:
+      summary: Eliminar un producto por su ID
+      description: Elimina un producto específico
+      security:
+        - passport:
+            - current: []
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto a eliminar
+      responses:
+        204:
+          description: Éxito, producto eliminado correctamente
+      tags:
+        - Products
+      
