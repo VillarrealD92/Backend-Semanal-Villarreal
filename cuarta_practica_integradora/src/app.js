@@ -25,7 +25,6 @@ import Mail from "./modules/mail.config.js"
 
 
 
-/* -- Express -- */
 const app = express()
 app.use(addLogger)
 app.use(cookieParser())
@@ -33,10 +32,8 @@ dotenv.config()
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
-/* -- CORS -- */
 app.use(cors())
 
-/* -- Mongo DB -- */
 
 const { mongoUrl, mongoDB, port } = config
 
@@ -49,7 +46,6 @@ mongoose.connect(mongoUrl, {dbName: mongoDB})
         res.status(500).send(e)
     })   
 
-/* -- Swagger -- */
 
 const swaggerOptions = {
     definition: {
@@ -64,7 +60,6 @@ const swaggerOptions = {
 const specs = swaggerJSDoc(swaggerOptions)
 app.use("/apidocs", SwaggerUIexpress.serve, SwaggerUIexpress.setup(specs))
 
-/* -- Sessions -- */
 const sessionSecret=config.sessionSecret
 app.use(session({
     store: MongoStore.create({
@@ -77,20 +72,16 @@ app.use(session({
     saveUninitialized: true
 }))  
 
-/* -- HandleBars -- */
 app.engine('handlebars', handlebars.engine())
 app.use("/static", express.static(__dirname + "/public"))
 app.set("views", __dirname+"/views")
 app.set("view engine", "handlebars")
 
 
-/* -- WebSocket -- */
-
 const httpServer = app.listen( port, () => console.log("Listening in "+ port ))
 const socketServer = new Server(httpServer) 
 socketServer.on("connection", async socket => {
     console.log("Client connected")
-    /* const juan = new ProductManager("./db.json") */
     
     try {
         const products = await productService.getAllProducts()
@@ -139,12 +130,12 @@ socketServer.on("connection", async socket => {
     })
 })
 
-/* -- Passport -- */
+
 initializePassport()
 app.use(passport.initialize())
 app.use(passport.session()) 
 
-/* -- API routes -- */
+
 app.use("/", viewsRouter)
 app.use("/api/products", productsRouter)
 app.use("/api/carts", cartRouter)

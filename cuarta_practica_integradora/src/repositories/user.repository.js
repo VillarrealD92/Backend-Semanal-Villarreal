@@ -23,4 +23,22 @@ export default class UserRepository {
     deleteUser = async (userId) => {
         return await this.dao.delete(userId)
     }
+
+    updateUserToPremium = async (userId) => {
+        try {
+            const updatedUser = await this.dao.updateUserToPremium(userId);
+            return updatedUser;
+        } catch (error) {
+            throw new Error(`Error al actualizar usuario a premium: ${error.message}`);
+        }
+    }
+
+    uploadUserDocuments = async (userId, documents) => {
+        try {
+            const updatedUser = await this.dao.uploadUserDocuments(userId, documents);
+            return updatedUser;
+        } catch (error) {
+            throw new Error(`Error al cargar documentos: ${error.message}`);
+        }
+    }
 }

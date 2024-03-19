@@ -3,7 +3,6 @@ import { productService } from "../repositories/index.repositories.js"
 
 export const getProducts = async (req, res)=> {
     try {
-        /* const products = await juan.getProducts() */
         const limit = parseInt(req.query.limit) || 3
         const page = parseInt(req.query.page) || 1
         const query = req.query.query || ""
@@ -34,7 +33,6 @@ export const getProducts = async (req, res)=> {
 export const getProductById = async (req, res) => {
     try {
         const id=req.params.pid
-        //const productRequired = await juan.getProductsById(parseInt(id))
         const productRequired = await productService.getProductById(id)
         productRequired? res.json( { productRequired } ) : res.json("Not Found")
         
@@ -49,7 +47,6 @@ export const createProduct = async (req,res) => {
         const product = req.body
         const { title, category, description, price, thumbnail, code, stock } = product
 
-        //const productAdded = await juan.addProduct(title, category, description, price, thumbnail, code, stock)
         const productAdded = await productService.createProduct(title, category, description, price, thumbnail, code, stock)
 
         return res.json(productAdded)
@@ -69,9 +66,6 @@ export const updateProduct = async (req,res) =>{
         
         return res.status(200).send({productUpdated})
 
-        /*
-        const updateMessage = await juan.updateProduct(parseInt(req.params.pid),keyToUpdate,newValue) 
-        */
     } catch (error) {
         req.logger.error("Error: " + error)
         return res.status(500).send("Internal Server Error. Couldnt update product")
@@ -81,7 +75,6 @@ export const updateProduct = async (req,res) =>{
 export const deleteProduct = async (req,res) => {
     try {
         const id=req.params.pid
-        //const deletionMessage = await juan.deleteProduct(id)
         await productService.deleteProduct(id)
         res.status(200).send("Product ID "+id+" has been deleted")
     } catch (error) {

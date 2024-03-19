@@ -16,7 +16,7 @@ export const validatePassword = (password, user) => {
     return bcrypt.compareSync(password, user.password)
 }
 
-/* JWT */
+
 
 const PRIVATE_KEY = config.jwtSign
 

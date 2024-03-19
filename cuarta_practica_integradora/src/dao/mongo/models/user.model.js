@@ -22,7 +22,7 @@ const UserModel = mongoose.model("users", new mongoose.Schema({
                 reference: String
             }
         ],
-            last_connection: Date
+    last_connection: Date
     },{ timestamps:true }
 ))
 

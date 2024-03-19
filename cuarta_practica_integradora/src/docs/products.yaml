@@ -83,13 +83,13 @@ components:
           type: ObjectId
           description: Product owner (the user who created it)
       example:
-        _id: ObjectId("6562b12c1552b1e892e6f33b")
-        title: Bagelers - Cinn
-        category: cursus
-        description: ultrices posuere cubilia
-        price: 93
+        _id: ObjectId("655ab92b014f0e3fe43a3d62")
+        title: Daniel Marquez
+        category: adiestramiento
+        description: Domiciliario
+        price: 8000
         thumbnail: []
-        code: $2a$04$g2gGCNuZAFXL/26SyUmRteMilp8J41gT1DpyM/g8BkkRvHIDWLWUS
-        stock: 72
+        code: adiestrador1
+        stock: 10
         status: false
 

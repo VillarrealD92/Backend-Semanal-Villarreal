@@ -29,7 +29,7 @@ export default class Mail {
         const options = {
             from: config.mailUser,
             to: user,
-            subject: "eCommerce - Purchase Ticket",
+            subject: "MundoCan - Purchase Ticket",
             html: `<h1>Your purchase has been successful!</h1>
                     <br>
                     <br>
@@ -49,7 +49,7 @@ export default class Mail {
         const options = {
             from: config.mailUser,
             to: email,
-            subject: "eCommerce - RESTABLISH YOUR PASSWORD",
+            subject: "MundoCan - RESTABLISH YOUR PASSWORD",
             html: `<h1>Restablish your password</h1>
             <br>
             <br>

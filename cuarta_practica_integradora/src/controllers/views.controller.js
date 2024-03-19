@@ -24,7 +24,6 @@ export const cartView = async (req, res) => {
 
 export const productsView = async (req, res)=> {
     try {
-        /* const products = await juan.getProducts() */
         const limit = parseInt(req.query.limit) || 10
         const page = parseInt(req.query.page) || 1
         const query = req.query.query || ""
@@ -32,8 +31,6 @@ export const productsView = async (req, res)=> {
         const sortValue= sort === "Desc" ? { price: -1 } : (sort === "Asc" ? { price: 1 } : {})
 
         const search = {}
-       // if (query) {search.title= { "$regex": query, "$options": "i" }}
-
         if (query) {
             search.$or = [
                 { title: { "$regex": query, "$options": "i" } },
@@ -124,15 +121,7 @@ export const checkOutView = async (req, res) => {
         const response = await fetch(`/api/carts/${cartId}/purchase`, { method: "post" })
         const checkOutData = await response.json()
         console.log(checkOutData);
-        /*      
-        .then(response => {return response.json()})
-        .then(data => {
-            console.log(data);
-        })
-        .catch(error => {
-            req.logger.error("Error: " + error)
-        });   */
-
+        
         res.render("checkOut",{
             user: req.user.user,
             checkOutData: checkOutData
