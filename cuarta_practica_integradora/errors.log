@@ -30,3 +30,5 @@
 {"level":"fatal","message":"Fatal: ERROR TRYING TO CONNECT MONGO DB"}
 {"level":"fatal","message":"Fatal: ERROR TRYING TO CONNECT MONGO DB"}
 {"level":"fatal","message":"Fatal: ERROR TRYING TO CONNECT MONGO DB"}
+error: Error: TypeError: mailer.sendPasswordMail is not a function
+error: Error: TypeError: mailer.sendPasswordMail is not a function

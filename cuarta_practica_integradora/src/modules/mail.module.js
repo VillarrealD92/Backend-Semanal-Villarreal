@@ -4,30 +4,40 @@ import config from "../config/config.js"
 export default class Mail {
     constructor(){
         this.transport = nodemailer.createTransport({
-            service: config.mailService,
-            port: config.mailPort,
-            auth:{
-                user: config.mailUser,
-                pass: config.mailPass
+            host: 'smtp.gmail.com', 
+            port: 587,
+            secure: false, 
+            auth: {
+                user: config.MAIL_USER,
+                pass: config.MAIL_PASS
+            },
+            tls: {
+                rejectUnauthorized: false
             }
-    })}
+        });
+    }
 
     send = async (user, subject, html) => {
-        const options = {
-            from: config.mailUser,
+        const opt = {
+            from: config.MAIL_USER,
             to: user,
             subject,
             html
-          }
-      
-          const result = await this.transport.sendMail(options)
-      
-          return result
-    }
+        };
+
+        try {
+            const result = await this.transport.sendMail(opt);
+            logger.info(`Email sent to ${user} successfully`);
+            return result;
+        } catch (error) {
+            logger.error(`Error sending email to ${user}: ${error.message}`);
+            throw error; 
+        }
+    };
 
     sendTicketMail = async (user, ticket) => {
         const options = {
-            from: config.mailUser,
+            from: config.MAIL_USER,
             to: user,
             subject: "MundoCan - Purchase Ticket",
             html: `<h1>Your purchase has been successful!</h1>
@@ -47,7 +57,7 @@ export default class Mail {
 
     sendPasswordMail = async (email, url) => {
         const options = {
-            from: config.mailUser,
+            from: config.MAIL_USER,
             to: email,
             subject: "MundoCan - RESTABLISH YOUR PASSWORD",
             html: `<h1>Restablish your password</h1>

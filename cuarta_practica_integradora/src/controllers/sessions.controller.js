@@ -1,6 +1,6 @@
 import UserDTO from "../DTO/user.dto.js";
 import config from "../config/config.js";
-import Mail from "../modules/mail.config.js";
+import Mail from "../modules/mail.module.js";
 import { userService } from "../repositories/index.repositories.js";
 import { createHash, generateMailToken, verifyToken } from "../utils.js";
 

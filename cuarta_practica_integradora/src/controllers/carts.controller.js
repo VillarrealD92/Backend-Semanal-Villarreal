@@ -1,4 +1,4 @@
-import Mail from "../modules/mail.config.js";
+import Mail from "../modules/mail.module.js";
 import {cartService, productService, ticketService} from "../repositories/index.repositories.js"
 
 export const checkOutProcess = async (req, res) => {

@@ -15,7 +15,7 @@ export default {
     jwtSign: process.env.JWT_SIGN,
     environment: process.env.ENVIRONMENT,
     mailService: process.env.MAIL_SERVICE,
-    mailUser: process.env.MAIL_USER,
-    mailPass: process.env.MAIL_PASS,
+    MAIL_USER: process.env.MAIL_USER,
+    MAIL_PASS: process.env.MAIL_PASS,
     mailPort: process.env.MAIL_PORT
 }

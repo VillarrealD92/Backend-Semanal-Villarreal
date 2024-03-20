@@ -21,7 +21,7 @@ import { chatService, productService } from "./repositories/index.repositories.j
 import { addLogger } from "./middlewares/logger.js"
 import SwaggerUIexpress from "swagger-ui-express"
 import swaggerJSDoc from "swagger-jsdoc"
-import Mail from "./modules/mail.config.js"
+import Mail from "./modules/mail.module.js"
 
 
 
