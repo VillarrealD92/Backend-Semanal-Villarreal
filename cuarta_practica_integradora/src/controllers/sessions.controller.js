@@ -29,6 +29,18 @@ export const githubCallback = (req,res) => {
     }
 }
 
+export const google = (req,res) => {}
+
+export const googleCallback = (req,res) => {   
+    try {
+        res.cookie('jwtCookie', req.user.token, { sameSite: 'none', secure: true });
+        return res.redirect('/products');
+    } catch (error) {
+        req.logger.error("Error: " + error)
+        return res.status(500).send("Internal Server Error. GoogleCallback has failed")   
+    }
+}
+
 export const register = async(req, res) => { 
     try {
         return res.status(201).redirect("/")

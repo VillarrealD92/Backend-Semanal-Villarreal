@@ -1,9 +1,11 @@
+import { cloudinary } from "../config/cloudinary.config.js"
 import { productService } from "../repositories/index.repositories.js"
+
 
 
 export const getProducts = async (req, res)=> {
     try {
-        const limit = parseInt(req.query.limit) || 3
+        const limit = parseInt(req.query.limit) || 2
         const page = parseInt(req.query.page) || 1
         const query = req.query.query || ""
         const order = req.query.sort === "Desc" ? -1 : 1
@@ -44,10 +46,17 @@ export const getProductById = async (req, res) => {
 
 export const createProduct = async (req,res) => {
     try {
-        const product = req.body
-        const { title, category, description, price, thumbnail, code, stock } = product
+        const { title, category, description, price, thumbnail, code, stock } = req.body
+        
+        if (!title, !category, !description, !price, !code, !stock) {
+            return res.status(400).send("Bad Request. Please check your requested fields")
+        }
+        
+        if(req.file){
+            const result = await cloudinary.uploader.upload(req.file.path);
+        }
 
-        const productAdded = await productService.createProduct(title, category, description, price, thumbnail, code, stock)
+        const productAdded = await productService.createProduct(title, category, description, price, thumbnail, code, stock);
 
         return res.json(productAdded)
 

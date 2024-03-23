@@ -37,7 +37,7 @@ export default class Mail {
 
     sendTicketMail = async (user, ticket) => {
         const options = {
-            from: config.MAIL_USER,
+            from: "MundoCan",
             to: user,
             subject: "MundoCan - Purchase Ticket",
             html: `<h1>Your purchase has been successful!</h1>
@@ -45,6 +45,7 @@ export default class Mail {
                     <br>
                     <h3>Purchase Ticket: ${ticket}</h3>
                     <br>
+                    <h5>Servicios Adquiridos:</h5>
                     <br>
                     <p>Thanks for choosing us!</p>
                     `
@@ -57,7 +58,7 @@ export default class Mail {
 
     sendPasswordMail = async (email, url) => {
         const options = {
-            from: config.MAIL_USER,
+            from: "MundoCan",
             to: email,
             subject: "MundoCan - RESTABLISH YOUR PASSWORD",
             html: `<h1>Restablish your password</h1>

@@ -1,9 +1,27 @@
-<main class="text-center">
-    <h1>Profile</h1>
+<main class="text-center profile-container mt-5">
+    <div class="logo-custom text-center mb-4">
+        <a href="/products"><img src="https://res.cloudinary.com/dhht1zszr/image/upload/v1711129174/logo_rduaco.svg"
+                alt="Logo" class="login-logo"></a>
+        <h3>MundoCan</h3>
+    </div>
+    <div class="profile-container mt-5">
+        <h1 class="profile-title text-center">Welcome, {{first_name}} {{last_name}}!</h1>
 
-    Name: {{first_name}} <br>
-    Last Name: {{last_name}} <br>
-    Email: {{email}} <br>
-
-    <a href="api/session/logout">Logout</a>
+        <div class="row justify-content-center">
+            <div class="col-md-9"> 
+                <div class="profile-info text-center"> 
+                    <div class="profile-avatar">
+                        <img src="https://via.placeholder.com/150" alt="Profile Picture">
+                    </div>
+                    <p><strong>Email:</strong> {{email}}</p>
+                </div>
+                <div class="profile-info">
+                    <p><em>Role: {{role}} </em></p>
+                </div>
+                <div class="text-center">
+                    <a href="api/session/logout" class="profile-logout">Logout <i class="fas fa-sign-out-alt"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>

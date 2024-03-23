@@ -1,3 +1,4 @@
+
 const cartId = document.querySelector(".cartId").value
 console.log(cartId);
 
@@ -29,7 +30,9 @@ if (trashIcon) {
     trashIcon.onclick = () => {
         
         fetch(`/api/carts/${cartId}`, { method: "delete" })
-        .then(response => {return response.json();})
+        .then(response => {
+            return response;
+        })  
         .then(data => {
             console.log(data);
             document.location.href = `/cart/${cartId}`

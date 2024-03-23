@@ -13,7 +13,7 @@ class MongoProductManager {
         return await ProductsModel.paginate(search
             , {
                 page: query? 1: page,
-                limit,
+                limit: 9,
                 sort: sortValue,
                 lean: true
             })

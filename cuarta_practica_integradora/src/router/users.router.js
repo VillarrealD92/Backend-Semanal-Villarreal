@@ -1,11 +1,11 @@
 import express from 'express';
-import upload from '../utils/multer.js';
-import { updateUserToPremium, uploadDocuments } from '../controllers/users.controller.js';
+import { uploader } from '../config/multer.config.js';
+import { updateUserToPremium, uploadUserDocuments } from '../controllers/users.controller.js';
 
 const router = express.Router();
 
 router.post('/:uid/premium', updateUserToPremium);
 
-router.post('/:uid/documents', upload.array('documents'), uploadDocuments);
+router.post('/:uid/documents', uploader.array('documents'), uploadUserDocuments);
 
 export default router;
